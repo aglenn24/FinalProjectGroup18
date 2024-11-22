@@ -20,7 +20,7 @@ class OrderBase(BaseModel):
     total_price: float
     
     # review
-    review_text: str
+    review_text: Optional[str] = None
     score: float
     
     # payment info
