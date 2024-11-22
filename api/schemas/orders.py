@@ -34,8 +34,20 @@ class OrderCreate(OrderBase):
 
 
 class OrderUpdate(BaseModel):
+    # customer info
     customer_name: Optional[str] = None
+    customer_address: Optional[str] = None
+    customer_email: Optional[str] = None
+    customer_phone: Optional[str] = None
     description: Optional[str] = None
+
+    # order info
+    order_status: Optional[str] = None
+
+    # payment info
+    card_info: Optional[str] = None
+    transaction_status: Optional[str] = None
+    payment_type: Optional[str] = None
 
 
 class Order(OrderBase):
