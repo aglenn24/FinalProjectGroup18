@@ -10,8 +10,8 @@ class Order(Base):
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     customer_name = Column(String(100))
     customer_address = Column(String(100))
-    customer_email = column(String(50))
-    customer_phone = column(String(20))
+    customer_email = Column(String(50))
+    customer_phone = Column(String(20))
     order_date = Column(DATETIME, nullable=False, server_default=str(datetime.now()))
     description = Column(String(300))
 
