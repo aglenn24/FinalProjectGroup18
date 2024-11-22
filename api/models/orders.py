@@ -17,5 +17,17 @@ class Order(Base):
     tracking_number = Column(Integer)
     order_status = Column(String(20))
     total_price = Column(DECIMAL(4, 2), nullable=False, server_default='0.0')
+    
+    review_text = Column(String(500))
+    score = Column(DECIMAL(2, 1), CheckConstraint("score >= 1 AND score <= 5", name="valid_score"))
+
+   
+    card_info = Column(String(4), nullable=True)  
+    transaction_status = Column(
+        String(20),
+        nullable=False,
+        default="Pending"
+    )
+    payment_type = Column(String(50), nullable=True)  
 
     order_details = relationship("OrderDetail", back_populates="order")
