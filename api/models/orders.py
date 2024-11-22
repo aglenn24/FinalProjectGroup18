@@ -14,5 +14,9 @@ class Order(Base):
     customer_phone = Column(String(20))
     order_date = Column(DATETIME, nullable=False, server_default=str(datetime.now()))
     description = Column(String(300))
+    
+    review_text = Column(String(500))
+    score = Column(DECIMAL(2, 1), CheckConstraint("score >= 1 AND score <= 5", name="valid_score"))
 
+    
     order_details = relationship("OrderDetail", back_populates="order")
