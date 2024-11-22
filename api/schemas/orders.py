@@ -17,6 +17,7 @@ class OrderBase(BaseModel):
     tracking_number: int
     order_status: str
     order_date: datetime
+    
     # maybe move to orderDetails
     total_price: float
     
