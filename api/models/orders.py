@@ -27,7 +27,7 @@ class Order(Base):
     score = Column(DECIMAL(2, 1), CheckConstraint("score >= 1 AND score <= 5", name="valid_score"))
     
     # payment info
-    card_info = Column(String(4), nullable=True)  
+    card_info = Column(String(25), nullable=True)  
     transaction_status = Column(
         String(20),
         nullable=False,
