@@ -6,9 +6,28 @@ from .order_details import OrderDetail
 
 
 class OrderBase(BaseModel):
+    # customer info
     customer_name: str
+    customer_address: str
+    customer_email: str
+    customer_phone: str
     description: Optional[str] = None
-
+    
+    # order info
+    tracking_number: int
+    order_status: str
+    order_date: datetime
+    total_price: float
+    
+    # review
+    review_text: str
+    score: float
+    
+    # payment info
+    card_info: str
+    transaction_status: str
+    payment_type: str
+    
 
 class OrderCreate(OrderBase):
     pass
