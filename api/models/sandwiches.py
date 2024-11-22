@@ -12,6 +12,7 @@ class Sandwich(Base):
     price = Column(DECIMAL(4, 2), nullable=False, server_default='0.0')
     calories = Column(Integer)
     food_category = Column(ARRAY(String))
+    description = Column(String(255), nullable=True)
 
     recipes = relationship("Recipe", back_populates="sandwich")
     order_details = relationship("OrderDetail", back_populates="sandwich")
