@@ -22,3 +22,6 @@ class Sandwich(SandwichBase):
 
     class ConfigDict:
         from_attributes = True
+
+class Sandwich(SandwichBase):
+    id: int
