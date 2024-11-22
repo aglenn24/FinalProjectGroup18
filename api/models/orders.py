@@ -14,5 +14,8 @@ class Order(Base):
     customer_phone = Column(String(20))
     order_date = Column(DATETIME, nullable=False, server_default=str(datetime.now()))
     description = Column(String(300))
+    tracking_number = Column(Integer)
+    order_status = Column(String(20))
+    total_price = Column(DECIMAL(4, 2), nullable=False, server_default='0.0')
 
     order_details = relationship("OrderDetail", back_populates="order")
