@@ -9,3 +9,4 @@ class PromoCodes(Base):
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     promo = Column(String(25), unique=True, nullable=False)
+    expiration = Column(String(25), unique=False, nullable=False)
