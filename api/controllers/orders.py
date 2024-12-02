@@ -1,7 +1,9 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, relationship
 from fastapi import HTTPException, status, Response, Depends
 from ..models import orders as model
 from sqlalchemy.exc import SQLAlchemyError
+
+from ..models.promo_codes import PromoCodes
 
 
 def create(db: Session, request):
@@ -19,7 +21,7 @@ def create(db: Session, request):
         tracking_number=request.tracking_number,
         order_status=request.order_status,
         order_date=request.order_date,
-        total_price=request.total_price,
+        total_price=request.calculate_total_price(),
         
         # might need to generate one somewhere
         review_text = request.review_text,
@@ -86,3 +88,19 @@ def delete(db: Session, item_id):
         error = str(e.__dict__['orig'])
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
+def calculate_total_price(self):
+    base_price = self.total_price
+    if self.promo_code:
+        discount_percent = self.promo_code.discount_percent
+        discount_price = base_price * discount_percent / 100
+        self.total_price = base_price - discount_price
+    else:
+        self.total_price = base_price
+
+def check_promo_code(db: Session, promo_code):
+    result = db.query(PromoCodes).filter_by(code=promo_code).first()
+    if result is None:
+        return False
+    return True
