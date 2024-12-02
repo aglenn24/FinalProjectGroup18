@@ -100,8 +100,8 @@ def calculate_total_price(self):
         self.total_price = base_price
 
 def check_promo_code(db: Session, promo_code):
-    result = db.query(PromoCodes).filter_by(code=promo_code).first()
-    if result is None or is_promo_code_expired(db, promo_code):
+    promo = db.query(PromoCodes).filter_by(code=promo_code).first()
+    if promo is None or is_promo_code_expired(db, promo_code):
         return False
     return True
 
