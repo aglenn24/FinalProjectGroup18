@@ -92,7 +92,7 @@ def delete(db: Session, item_id):
 
 def calculate_total_price(self):
     base_price = self.total_price
-    if self.promo_code:
+    if check_promo_code(self.db, self.promo_code):
         discount_percent = self.promo_code.discount_percent
         discount_price = base_price * discount_percent / 100
         self.total_price = base_price - discount_price
