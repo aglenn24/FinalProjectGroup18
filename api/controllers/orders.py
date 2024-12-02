@@ -2,8 +2,8 @@ from sqlalchemy.orm import Session, relationship
 from fastapi import HTTPException, status, Response, Depends
 from ..models import orders as model
 from sqlalchemy.exc import SQLAlchemyError
-
 from ..models.promo_codes import PromoCodes
+from datetime import datetime
 
 
 def create(db: Session, request):
@@ -101,6 +101,13 @@ def calculate_total_price(self):
 
 def check_promo_code(db: Session, promo_code):
     result = db.query(PromoCodes).filter_by(code=promo_code).first()
-    if result is None:
+    if result is None or is_promo_code_expired(db, promo_code):
         return False
     return True
+
+
+def is_promo_code_expired(db: Session, promo_code):
+    promo = db.query(PromoCodes).filter_by(code=promo_code).first()
+    if promo is None:
+        return True
+    return promo.expiration < datetime.now()
