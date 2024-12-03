@@ -1,8 +1,9 @@
-from sqlalchemy import Column, ForeignKey, Integer, String, DECIMAL, DATETIME, CheckConstraint
+from sqlalchemy import Column, ForeignKey, Integer, String, DECIMAL, DATETIME, CheckConstraint, Sequence
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from ..dependencies.database import Base
 
+tracking_number_sequence = Sequence('tracking_number_seq', start=00000, increment=1)
 
 class Order(Base):
     __tablename__ = "orders"
@@ -17,7 +18,7 @@ class Order(Base):
     description = Column(String(300))
     
     # order info
-    tracking_number = Column(Integer)
+    tracking_number = Column(Integer, tracking_number_sequence, server_default=tracking_number_sequence.next_value(), unique = True)
     order_status = Column(String(20), nullable=False, server_default='0.0')
     order_date = Column(DATETIME, nullable=False, server_default=str(datetime.now()))
     total_price = Column(DECIMAL(4, 2), nullable=False, server_default='0.0')
