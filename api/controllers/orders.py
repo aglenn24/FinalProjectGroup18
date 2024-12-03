@@ -111,3 +111,12 @@ def is_promo_code_expired(db: Session, promo_code):
     if promo is None:
         return True
     return promo.expiration < datetime.now()
+
+def search_by_tracking_number(db: Session, tracking_number):
+    try:
+        order = db.query(model.Order).filter(model.Order.tracking_number == tracking_number).first()
+        if not order:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Tracking number not found!")
+    except SQLAlchemyError as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e.__dict__['orig']))
+    return order
