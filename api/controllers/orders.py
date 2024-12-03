@@ -92,6 +92,18 @@ def update_review(db: Session, item_id, request):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
     return item.first()
 
+def update_order_status(db: Session, tracking_number: str, new_status: str):
+    try:
+        order = db.query(model.Order).filter(model.Order.tracking_number == tracking_number)
+        if not order.first():
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Order not found!")
+        order.update({"order_status": new_status}, synchronize_session=False)
+        db.commit()
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
+    return order.first()
+
 
 def delete(db: Session, item_id):
     try:
