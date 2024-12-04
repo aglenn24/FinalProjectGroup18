@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status, Response, Depends
 from ..models import resources as model
+from ..models import recipes as recipe_model
 from sqlalchemy.exc import SQLAlchemyError
 
 
@@ -66,3 +67,40 @@ def delete(db: Session, item_id):
         error = str(e.__dict__['orig'])
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
+def check_resources(db: Session, item_id, required_amount):
+    try:
+        item = db.query(model.Resource).filter(model.Resource.id == item_id).first()
+        if not item:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Id not found!")
+
+        if item.amount < required_amount:
+            return f"Sorry, there is not enough {item.item} to complete this order"
+
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
+
+    return True
+
+
+def subtract_resources(db: Session, recipe_id: int):
+    try:
+        recipe = db.query(recipe_model.Recipe).filter(recipe_model.Recipe.id == recipe_id).first()
+        if not recipe:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Recipe not found!")
+
+        for ingredient in db.query(recipe_model.Recipe):
+            amount_needed = recipe_model.Recipe.amount
+            result = check_resources(db, ingredient.resource_id, amount_needed)
+            if result is not True:
+                return result
+
+            resource = db.query(model.Resource).filter(model.Resource.id == ingredient.resource_id).first()
+            resource.amount -= amount_needed
+            db.commit()
+
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
