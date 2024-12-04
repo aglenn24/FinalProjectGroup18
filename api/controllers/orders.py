@@ -3,6 +3,7 @@ from fastapi import HTTPException, status, Response, Depends
 from ..models import orders as model
 from sqlalchemy.exc import SQLAlchemyError
 from ..models.promo_codes import PromoCodes
+from ..controllers.resources import check_resources, subtract_resources
 from datetime import datetime
 
 
@@ -33,6 +34,7 @@ def create(db: Session, request):
     )
 
     try:
+        check_resources(db, new_item, request.amount)
         db.add(new_item)
         db.commit()
         db.refresh(new_item)
