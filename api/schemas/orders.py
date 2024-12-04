@@ -17,18 +17,16 @@ class OrderBase(BaseModel):
     tracking_number: int
     order_status: str
     order_date: datetime
-    
-    # maybe move to orderDetails
     total_price: float
     
     # review
     review_text: Optional[str] = None
-    score: float
+    score: Optional[float] = None
     
     # payment info
-    card_info: str
+    card_info: Optional[str] = None
     transaction_status: str
-    payment_type: str
+    payment_type: Optional[str] = None
     
 
 class OrderCreate(OrderBase):
@@ -55,7 +53,7 @@ class OrderUpdate(BaseModel):
 class Order(OrderBase):
     id: int
     order_date: Optional[datetime] = None
-    order_details: list[OrderDetail] = None
+    order_details: Optional[list[OrderDetail]] = None
 
     class ConfigDict:
         from_attributes = True
