@@ -15,5 +15,5 @@ class Sandwich(Base):
     description = Column(String(255), nullable=True)
 
     recipes = relationship("Recipe", back_populates="sandwich")
-    order_details = relationship("OrderDetail", back_populates="sandwich")
+    orders = relationship("Order", back_populates="sandwich")
     
