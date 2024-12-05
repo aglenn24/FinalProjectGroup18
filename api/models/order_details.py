@@ -3,7 +3,7 @@ from sqlalchemy.orm import relationship
 from datetime import datetime
 from ..dependencies.database import Base
 
-tracking_number_sequence = Sequence('tracking_number_seq', start=00000, increment=1)
+
 
 class OrderDetail(Base):
     __tablename__ = "order_details"
