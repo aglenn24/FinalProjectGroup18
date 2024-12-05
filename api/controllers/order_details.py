@@ -1,6 +1,8 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status, Response, Depends
 from ..models import order_details as model
+from ..models import orders as model
+from ..models import sandwiches as model
 from sqlalchemy.exc import SQLAlchemyError
 
 
@@ -13,6 +15,7 @@ def create(db: Session, request):
 
     try:
         db.add(new_item)
+        update_total_price(new_item)
         db.commit()
         db.refresh(new_item)
     except SQLAlchemyError as e:
@@ -67,3 +70,21 @@ def delete(db: Session, item_id):
         error = str(e.__dict__['orig'])
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+def update_total_price (db: Session, new_item):
+    try:
+        sandwich = db.query(model.Sandwich).filter(model.Sandwich.id == new_item.sandwich_id)
+        if not sandwich:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Order Detail Sandwich not found!")
+        
+        order = db.query(model.Order).filter(model.Order.id == new_item.order_id)
+        if not order:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Order Detail Order not found!")
+        
+        order.total_price += new_item.amount * sandwich.price
+        return order.total_price
+        
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
+    
