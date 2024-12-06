@@ -12,4 +12,4 @@ class PromoCodes(Base):
     discount_percent = Column(DECIMAL(3, 2), CheckConstraint("discount_percent >= 0 AND discount_percent <= 100"), nullable=False)
     expiration = Column(DATETIME, unique=False, nullable=False)
 
-    orders = relationship("Order", back_populates="promo_code")
+    order = relationship("Order", back_populates="promo_code")

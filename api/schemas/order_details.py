@@ -23,18 +23,8 @@ class OrderDetail(OrderDetailBase):
     order_id: int
     sandwich_id: int 
     customer_name: Optional[str] = None
-    customer_address: Optional[str] = None
-    customer_email: Optional[str] = None
-    customer_phone: Optional[str] = None
-    description: Optional[str] = None
-    tracking_number: Optional[int] = None
-    order_status: Optional[str] = None
-    order_date: Optional[datetime] = None
-    review_text: Optional[str] = None
-    score: Optional[float] = None
+    amount: int
 
-    
-    sandwich: Optional[Sandwich] = None 
     
 class ConfigDict:
         from_attributes = True

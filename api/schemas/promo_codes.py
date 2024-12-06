@@ -6,7 +6,7 @@ from pydantic import BaseModel
 class PromoCodeBase(BaseModel):
     promo: str
     expiration: datetime
-    discountPercent: float
+    discount_percent: float
 
 class PromoCodeCreate(PromoCodeBase):
     pass

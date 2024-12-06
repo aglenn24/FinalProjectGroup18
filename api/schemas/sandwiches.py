@@ -4,16 +4,14 @@ from pydantic import BaseModel
 
 
 class SandwichBase(BaseModel):
-    sandwich_name: str
-    price: float
-
-
-class SandwichCreate(SandwichBase):
-    sandwich_name: str
-    price: float
+    sandwich_name: Optional[str] = None
+    price: Optional[float] = None
     calories: int
     food_category: str
     description: str
+
+class SandwichCreate(SandwichBase):
+    pass
 
 
 class SandwichUpdate(BaseModel):

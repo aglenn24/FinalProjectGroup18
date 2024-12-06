@@ -9,10 +9,10 @@ class RecipeBase(BaseModel):
     amount: int
 
 
+
 class RecipeCreate(RecipeBase):
     sandwich_id: int
     resource_id: int
-    amount: int
     # menu_id: int
 
 class RecipeUpdate(BaseModel):
