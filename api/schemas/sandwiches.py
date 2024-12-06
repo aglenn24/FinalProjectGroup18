@@ -15,7 +15,10 @@ class SandwichCreate(SandwichBase):
 class SandwichUpdate(BaseModel):
     sandwich_name: Optional[str] = None
     price: Optional[float] = None
-
+    calories: int
+    food_category: str
+    description: str
+    
 
 class Sandwich(SandwichBase):
     id: int
