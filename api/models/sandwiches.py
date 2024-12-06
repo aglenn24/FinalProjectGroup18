@@ -14,6 +14,6 @@ class Sandwich(Base):
     food_category = Column(ARRAY(String))
     description = Column(String(255), nullable=True)
 
-    recipes = relationship("Recipe", back_populates="sandwich")
-    order_details = relationship("OrderDetail", back_populates="sandwich")
+    recipes = relationship("Recipe", back_populates="sandwiches")
+    order_details = relationship("Order", back_populates="sandwiches")
     
