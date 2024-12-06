@@ -13,7 +13,8 @@ class Sandwich(Base):
     calories = Column(Integer)
     food_category = Column(ARRAY(String))
     description = Column(String(255), nullable=True)
+    recipe_id = Column(Integer, ForeignKey("recipes.id"))
 
-    recipes = relationship("Recipe", back_populates="sandwiches")
-    order_details = relationship("Order", back_populates="sandwiches")
-    
+    recipe = relationship("Recipe", back_populates="sandwiches")
+    order_details = relationship("OrderDetails", back_populates="sandwiches")
+    orders = relationship("Order", back_populates="sandwiches")

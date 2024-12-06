@@ -15,4 +15,5 @@ class OrderDetail(Base):
     sandwich_id = Column(Integer, ForeignKey("sandwiches.id"))
     amount = Column(Integer, index=True, nullable=False)
     
-    order = relationship("Order", back_populates="order_details")
+    orders = relationship("Order", back_populates="order_details")
+    sandwiches = relationship("Sandwich", back_populates="order_details")

@@ -40,6 +40,6 @@ class Order(Base):
     
     payment_type = Column(String(50), nullable=True)  
     
-    order_details = relationship("OrderDetail", back_populates="order")
-    sandwiches = relationship("Sandwich", back_populates="order_details")
+    order_details = relationship("OrderDetail", back_populates="orders")
+    sandwiches = relationship("Sandwich", back_populates="orders")
     promo_code = relationship("PromoCodes", back_populates="orders")
