@@ -1,9 +1,7 @@
 from sqlalchemy import Column, ForeignKey, Integer, String, DECIMAL, DATETIME
-from sqlalchemy.orm import relationship, declarative_base
+from sqlalchemy.orm import relationship
 from datetime import datetime
 from ..dependencies.database import Base
-
-Base = declarative_base()
 
 class Recipe(Base):
     __tablename__ = "recipes"

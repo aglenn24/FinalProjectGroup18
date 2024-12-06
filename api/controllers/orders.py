@@ -8,6 +8,7 @@ from datetime import datetime
 
 
 def create(db: Session, request):
+    tracking_number = generate_tracking_number(db)
     new_item = model.Order(
         # placeholders
         # customer
@@ -19,7 +20,7 @@ def create(db: Session, request):
         
         # tracking/order info
         # might need to generate tracking number outside of thing
-        tracking_number=request.tracking_number,
+        tracking_number=tracking_number,
         order_status=request.order_status,
         order_date=request.order_date,
         total_price=request.calculate_total_price(),
@@ -150,3 +151,10 @@ def search_by_tracking_number(db: Session, tracking_number):
     except SQLAlchemyError as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e.__dict__['orig']))
     return order
+
+def generate_tracking_number(db: Session):
+    last_order = db.query(model.Order).order_by(model.Order.tracking_number.desc()).first()
+    if last_order and last_order.tracking_number:
+        return last_order.tracking_number + 1
+    else:
+        return 1000001

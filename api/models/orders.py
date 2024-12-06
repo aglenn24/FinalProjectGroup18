@@ -20,7 +20,7 @@ class Order(Base):
     description = Column(String(300))
     
     # order info
-    tracking_number = Column(Integer, tracking_number_sequence, server_default=tracking_number_sequence.next_value(), unique = True)
+    tracking_number = Column(Integer, nullable=False, unique = True)
     order_status = Column(String(20), nullable=False, server_default='0.0')
     order_date = Column(DATETIME, nullable=False, server_default=str(datetime.now()))
     

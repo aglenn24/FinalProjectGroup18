@@ -11,7 +11,7 @@ class Sandwich(Base):
     sandwich_name = Column(String(100), unique=True, nullable=True)
     price = Column(DECIMAL(4, 2), nullable=False, server_default='0.0')
     calories = Column(Integer)
-    food_category = Column(ARRAY(String))
+    food_category = Column(String(255))
     description = Column(String(255), nullable=True)
     recipe_id = Column(Integer, ForeignKey("recipes.id"))
 
