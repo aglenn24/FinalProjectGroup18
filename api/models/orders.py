@@ -9,8 +9,8 @@ class Order(Base):
     __tablename__ = "orders"
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    sandwich_id = Column(Integer, ForeignKey('sandwiches.id'), nullable=False)
-    promo_code_id = Column(Integer, ForeignKey('promo_codes.id'), nullable=True)
+    # sandwich_id = Column(Integer, ForeignKey('sandwiches.id'), nullable=False)
+    # promo_code_id = Column(Integer, ForeignKey('promo_codes.id'), nullable=True)
 
     # customer info
     customer_name = Column(String(100))
@@ -41,4 +41,4 @@ class Order(Base):
     payment_type = Column(String(50), nullable=True)  
     
     order_detail = relationship("OrderDetail", back_populates="order")
-    promo_code = relationship("PromoCodes", back_populates="order")
+    # promo_code = relationship("PromoCodes", back_populates="order")

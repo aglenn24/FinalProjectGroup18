@@ -22,7 +22,7 @@ def create(db: Session, request):
         tracking_number=request.tracking_number,
         order_status=request.order_status,
         order_date=request.order_date,
-        total_price=request.calculate_total_price(),
+        total_price=request.total_price,
         
         # might need to generate one somewhere
         review_text = request.review_text,
@@ -34,7 +34,7 @@ def create(db: Session, request):
     )
 
     try:
-        check_resources(db, new_item, request.amount)
+        # check_resources(db, new_item, request.amount)
         db.add(new_item)
         db.commit()
         db.refresh(new_item)
@@ -120,14 +120,14 @@ def delete(db: Session, item_id):
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
-def calculate_total_price(self):
-    base_price = self.total_price * self.amount
-    if check_promo_code(self.db, self.promo_code):
-        discount_percent = self.promo_code.discount_percent
-        discount_price = base_price * discount_percent / 100
-        self.total_price = base_price - discount_price
-    else:
-        self.total_price = base_price
+# def calculate_total_price(self):
+#     base_price = self.total_price * self.amount
+#     if check_promo_code(self.db, self.promo_code):
+#         discount_percent = self.promo_code.discount_percent
+#         discount_price = base_price * discount_percent / 100
+#         self.total_price = base_price - discount_price
+#     else:
+#         self.total_price = base_price
 
 def check_promo_code(db: Session, promo_code):
     promo = db.query(PromoCodes).filter_by(code=promo_code).first()
